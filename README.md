@@ -1,6 +1,8 @@
 # Package Tracker Project
+
 ## Description
 This is a project for tracking packages.
+
 ### TODO:
 - [ ] Add SQL script for creating tables and data initialization
 - [ ] Pagination and sorting tables
