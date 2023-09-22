@@ -6,6 +6,9 @@
       <list>
         <option value="$PROJECT_DIR$/package-managment-service/pom.xml" />
         <option value="$PROJECT_DIR$/package-management-service/pom.xml" />
+        <option value="$PROJECT_DIR$/truck-managment-service/pom.xml" />
+        <option value="$PROJECT_DIR$/truck-management-service/pom.xml" />
+        <option value="$PROJECT_DIR$/notification-service/pom.xml" />
       </list>
     </option>
   </component>
