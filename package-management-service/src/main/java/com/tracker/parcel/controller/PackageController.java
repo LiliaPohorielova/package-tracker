@@ -1,6 +1,7 @@
 package com.tracker.parcel.controller;
 
 import com.tracker.parcel.entity.Package;
+import com.tracker.parcel.model.request.PackageRequest;
 import com.tracker.parcel.service.impl.PackageServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/packages")
+@RequestMapping("/api/v1/packages")
 @AllArgsConstructor
 public class PackageController {
 
@@ -36,7 +37,7 @@ public class PackageController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Package createPackage(@RequestBody Package request) {
+    public Package createPackage(@RequestBody PackageRequest request) {
         return packageService.createPackage(request);
     }
 
@@ -51,5 +52,11 @@ public class PackageController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removePackage(@PathVariable Long id) {
         packageService.deletePackageById(id);
+    }
+
+    @PostMapping("/send")
+    @ResponseStatus(HttpStatus.OK)
+    public Package sendPackage(@RequestBody Package request) {
+        return packageService.sendPackage(request);
     }
 }

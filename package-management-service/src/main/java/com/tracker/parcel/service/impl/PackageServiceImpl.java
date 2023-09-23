@@ -2,6 +2,8 @@ package com.tracker.parcel.service.impl;
 
 import com.tracker.parcel.entity.Package;
 import com.tracker.parcel.exception.ResourceNotFoundException;
+import com.tracker.parcel.mapper.PackageMapper;
+import com.tracker.parcel.model.request.PackageRequest;
 import com.tracker.parcel.repository.PackageRepository;
 import com.tracker.parcel.service.PackageService;
 import java.util.List;
@@ -17,8 +19,9 @@ public class PackageServiceImpl implements PackageService {
     private final PackageRepository packageRepository;
 
     @Override
-    public Package createPackage(Package request) {
-        return packageRepository.save(request);
+    public Package createPackage(PackageRequest request) {
+        Package created = PackageMapper.INSTANCE.toPackage(request);
+        return packageRepository.save(created);
     }
 
     @Override
@@ -50,5 +53,11 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public List<Package> getAllPackages() {
         return packageRepository.findAll();
+    }
+
+    @Override
+    public Package sendPackage(Package request) {
+        // TODO: Send kafka event to notify delivery service
+        return null;
     }
 }

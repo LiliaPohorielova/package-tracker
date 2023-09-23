@@ -1,0 +1,11 @@
+# mail
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: package.tracker.project@gmail.com
+    password: rootroot
+    smtp:
+      auth: true
+      starttls:
+        enable: true

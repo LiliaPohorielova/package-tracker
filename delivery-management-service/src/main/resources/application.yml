@@ -1,12 +1,12 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   application:
-    name: package-management-service
+    name: delivery-management-service
   datasource:
     username: 'postgres'
-    url: jdbc:postgresql://localhost:5432/packages
+    url: jdbc:postgresql://localhost:5432/deliveries
     password: 'root'
   jpa:
     properties:
@@ -16,4 +16,3 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
