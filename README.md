@@ -13,6 +13,7 @@ This is a project for tracking packages.
 
 ### Improvements:
 - [ ] Grafana Metrics
+- [ ] NoSQL database
 
 ### Get Started:
 #### 1. Database initialization:

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/delivering")
-public class DeliveringController {
+public class DeliveryController {
 
     //TODO: Replace with Feign client
 }
