@@ -11,14 +11,25 @@ import MDAvatar from "components/MDAvatar";
 import MDProgress from "components/MDProgress";
 
 // Images
-import LogoAsana from "assets/images/small-logos/logo-asana.svg";
+import parcelIcon from "assets/images/parcel-icon.png";
+import parcelIconDark from "assets/images/parcel-icon-dark.png";
 import logoGithub from "assets/images/small-logos/github.svg";
 import logoAtlassian from "assets/images/small-logos/logo-atlassian.svg";
 import logoSlack from "assets/images/small-logos/logo-slack.svg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import logoInvesion from "assets/images/small-logos/logo-invision.svg";
+import * as React from "react";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import {useState} from "react";
+import MDButton from "../../../components/MDButton";
+import {useMaterialUIController} from "../../../context";
 
 export default function data() {
+
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+
   const Project = ({ image, name }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" variant="rounded" />
@@ -39,6 +50,35 @@ export default function data() {
     </MDBox>
   );
 
+  const [menu, setMenu] = useState(null);
+  const openMenu = ({ currentTarget }) => setMenu(currentTarget);
+  const closeMenu = () => setMenu(null);
+
+  const renderMenu = (
+      <Menu
+          id="simple-menu"
+          anchorEl={menu}
+          open={Boolean(menu)}
+          onClose={closeMenu}
+      >
+        <MenuItem onClick={closeMenu}>
+          <MDButton variant="text" color="error">
+            <Icon>delete</Icon>&nbsp;delete
+          </MDButton>
+        </MenuItem>
+        <MenuItem onClick={closeMenu}>
+          <MDButton variant="text" color={darkMode ? "white" : "dark"}>
+            <Icon>edit</Icon>&nbsp;edit
+          </MDButton>
+        </MenuItem>
+        <MenuItem onClick={closeMenu}>
+          <MDButton variant="text" color={darkMode ? "white" : "dark"}>
+            <Icon>visibility</Icon>&nbsp;view
+          </MDButton>
+        </MenuItem>
+      </Menu>
+  );
+
   return {
     columns: [
       { Header: "project", accessor: "project", width: "30%", align: "left" },
@@ -50,7 +90,7 @@ export default function data() {
 
     rows: [
       {
-        project: <Project image={LogoAsana} name="Asana" />,
+        project: <Project image={darkMode ? parcelIcon : parcelIconDark} name="Asana" />,
         budget: (
           <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
             $2,500
@@ -64,7 +104,10 @@ export default function data() {
         completion: <Progress color="info" value={60} />,
         action: (
           <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
+            <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
+              more_vert
+            </Icon>
+            {renderMenu}
           </MDTypography>
         ),
       },
@@ -83,7 +126,15 @@ export default function data() {
         completion: <Progress color="success" value={100} />,
         action: (
           <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
+            <MDButton variant="text" color={darkMode ? "white" : "dark"}>
+              <Icon>visibility</Icon>
+            </MDButton>
+            <MDButton variant="text" color={darkMode ? "white" : "dark"}>
+              <Icon>edit</Icon>
+            </MDButton>
+            <MDButton variant="text" color="error">
+              <Icon>delete</Icon>
+            </MDButton>
           </MDTypography>
         ),
       },

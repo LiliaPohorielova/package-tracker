@@ -1,4 +1,4 @@
-
+import * as React from 'react';
 import { useState } from "react";
 
 // @mui material components
@@ -16,6 +16,7 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import data from "layouts/dashboard/components/Projects/data";
+import Button from "@mui/material/Button";
 
 function Projects() {
   const { columns, rows } = data();
@@ -23,6 +24,14 @@ function Projects() {
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const renderMenu = (
     <Menu
@@ -68,9 +77,34 @@ function Projects() {
           </MDBox>
         </MDBox>
         <MDBox color="text" px={2}>
-          <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
-            more_vert
-          </Icon>
+          {/*<Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>*/}
+          {/*  more_vert*/}
+          {/*</Icon>*/}
+          {/*<div>*/}
+
+            <Button
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              Dashboard
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
+          {/*</div>*/}
         </MDBox>
         {renderMenu}
       </MDBox>

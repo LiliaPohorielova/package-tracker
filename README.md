@@ -14,6 +14,8 @@ This is a project for tracking packages.
 ### Improvements:
 - [ ] Grafana Metrics
 - [ ] NoSQL database
+- [ ] Kubernetes
+- [ ] Deployment to AWS
 
 ### Get Started:
 #### 1. Database initialization:
