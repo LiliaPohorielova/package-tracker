@@ -60,4 +60,8 @@ public class PackageServiceImpl implements PackageService {
         // TODO: Send kafka event to notify delivery service
         return null;
     }
+
+    public void deleteAllPackages() {
+        packageRepository.deleteAll();
+    }
 }

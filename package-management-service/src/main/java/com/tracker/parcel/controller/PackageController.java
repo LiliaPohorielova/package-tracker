@@ -6,6 +6,7 @@ import com.tracker.parcel.service.impl.PackageServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/packages")
+@CrossOrigin
 @AllArgsConstructor
 public class PackageController {
 
@@ -52,6 +54,12 @@ public class PackageController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removePackage(@PathVariable Long id) {
         packageService.deletePackageById(id);
+    }
+
+    @DeleteMapping("/all")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeAllPackages() {
+        packageService.deleteAllPackages();
     }
 
     @PostMapping("/send")

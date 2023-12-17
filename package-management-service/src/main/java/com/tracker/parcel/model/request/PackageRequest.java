@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class PackageRequest {
 
     private String title;
-    private String departure;
+    private String source;
     private String destination;
 }

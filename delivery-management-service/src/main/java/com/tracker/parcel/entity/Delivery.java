@@ -22,6 +22,6 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String departure;
+    private String source;
     private String destination;
 }

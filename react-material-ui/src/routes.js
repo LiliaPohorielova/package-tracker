@@ -24,6 +24,8 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
+import Details from "layouts/details";
+import Create from "layouts/create";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
@@ -44,11 +46,27 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Create",
+    key: "create",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/package/create",
+    component: <Create />,
+  },
+  {
+    type: "collapse",
     name: "Parcels",
     key: "tables",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
     component: <Tables />,
+  },
+  {
+    type: "route",
+    name: "Details",
+    key: "details",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/package/:id/details",
+    component: <Details />,
   },
   {
     type: "collapse",

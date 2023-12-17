@@ -22,6 +22,18 @@ public class Package {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String departure;
+    private String source;
     private String destination;
+    private String status;
+    private String progress;
+    private String budget;
+    private String image;
+    private String dateOfDispatch;
+    private String dateOfReceipt;
+    private String firstnameRecipient;
+    private String lastnameRecipient;
+    private String phoneNumberRecipient;
+    private String firstnameSender;
+    private String lastnameSender;
+    private String phoneNumberSender;
 }
