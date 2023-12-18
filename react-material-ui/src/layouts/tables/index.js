@@ -40,6 +40,7 @@ import MDProgress from "../../components/MDProgress";
 import { Stack } from "@mui/material";
 // import {MaterialTable} from "material-table";
 import { DataGrid } from "@mui/x-data-grid";
+import image from "../../assets/images/list/package_icon.png";
 
 function Tables() {
   const navigate = useNavigate();
@@ -91,6 +92,8 @@ function Tables() {
   const { darkMode } = controller;
   const { columns, rows } = authorsTableData();
   const [open, setOpen] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [deleteModalId, setDeleteModalId] = useState(0);
   const [users, setUsers] = useState([]);
   // const { columns: pColumns, rows: pRows } = projectsTableData(users);
   const [pColumns, setPColumns] = useState([]);
@@ -185,6 +188,9 @@ function Tables() {
       field: "image",
       headerName: "Image",
       width: 90,
+      renderCell: () => {
+        return <img src={image} />
+      }
     },
     {
       field: "title",
@@ -240,8 +246,7 @@ function Tables() {
               View
             </MDButton>
             <MDButton
-                component={Link}
-                to={`/package/${params.row.id}/details`}
+                onClick={() => handleOpenDeleteDialog(params.row.id)}
                 variant="outlined"
                 size="small"
                 color={'error'}
@@ -251,6 +256,28 @@ function Tables() {
             {/*<Button variant="outlined" color="error" size="small" onClick={onClick}>*/}
             {/*  Delete*/}
             {/*</Button>*/}
+            <Dialog
+                open={openDeleteDialog}
+                onClose={handleCloseDeleteDialog}
+                aria-labelledby={`alert-dialog-title${params.row.id}`}
+                aria-describedby={`alert-dialog-description${params.row.id}`}
+            >
+              <DialogTitle id={`alert-dialog-title${params.row.id}`}>
+                {"Use Google's location service?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id={`alert-dialog-description${params.row.id}`}>
+                  Let Google help apps determine location. This means sending anonymous
+                  location data to Google, even when no apps are running.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDeleteDialog}>Disagree</Button>
+                <Button onClick={handleCloseDeleteDialog} autoFocus>
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Stack>
         );
       },
@@ -265,6 +292,13 @@ function Tables() {
   // ];
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleOpenDeleteDialog = (id) => {
+    setDeleteModalId(id);
+    setOpenDeleteDialog(true);
+  };
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
   };
 
   const { register, handleSubmit } = useForm();
