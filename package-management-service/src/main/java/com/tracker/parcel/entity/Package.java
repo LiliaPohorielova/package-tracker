@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "packages")
@@ -22,18 +22,24 @@ public class Package {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String source;
-    private String destination;
-    private String status;
-    private String progress;
+    private String sourceRegion;
+    private String sourceCity;
+    private String sourcePostalBranch;
+    private String destinationRegion;
+    private String destinationCity;
+    private String destinationPostalBranch;
     private String budget;
     private String image;
     private String dateOfDispatch;
     private String dateOfReceipt;
-    private String firstnameRecipient;
-    private String lastnameRecipient;
-    private String phoneNumberRecipient;
-    private String firstnameSender;
-    private String lastnameSender;
-    private String phoneNumberSender;
+    private String recipientSurname;
+    private String recipientName;
+    private String recipientPhoneNumber;
+    private String recipientEmail;
+    private String senderSurname;
+    private String senderName;
+    private String senderPhoneNumber;
+    private String senderEmail;
+    private Status status;
+    private Integer progress;
 }

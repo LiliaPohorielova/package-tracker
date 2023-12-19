@@ -206,16 +206,17 @@ function Create() {
                               type="text"
                               fullWidth
                               required
+                              inputProps={register("senderSurname")}
                             />
                           </Grid>
                           <Grid item xs={6}>
                             <TextField
                               size="small"
-                              id="destination"
                               label="Sender's Name"
                               type="text"
                               fullWidth
                               required
+                              inputProps={register("senderName")}
                             />
                           </Grid>
                           <Grid item xs={6}>
@@ -227,6 +228,7 @@ function Create() {
                               select
                               label="Region"
                               fullWidth
+                              inputProps={register("sourceRegion")}
                             >
                               <MenuItem value="">Select Region</MenuItem>
                               {regions.map((region, index) => (
@@ -245,7 +247,7 @@ function Create() {
                               select
                               label="City"
                               fullWidth
-                              inputProps={register("source")}
+                              inputProps={register("sourceCity")}
                             >
                               <MenuItem value="">Select City</MenuItem>
                               {selectedSourceRegion &&
@@ -267,6 +269,7 @@ function Create() {
                               select
                               label="Postal Branch"
                               fullWidth
+                              inputProps={register("sourcePostalBranch")}
                             >
                               <MenuItem value="">Select Postal Branch</MenuItem>
                               {selectedSourceCity &&
@@ -284,6 +287,7 @@ function Create() {
                               type="text"
                               fullWidth
                               required
+                              inputProps={register("recipientSurname")}
                             />
                           </Grid>
                           <Grid item xs={6}>
@@ -294,6 +298,7 @@ function Create() {
                               type="text"
                               fullWidth
                               required
+                              inputProps={register("recipientName")}
                             />
                           </Grid>
                           <Grid item xs={6}>
@@ -305,6 +310,7 @@ function Create() {
                               select
                               label="Region"
                               fullWidth
+                              inputProps={register("destinationRegion")}
                             >
                               <MenuItem value="">Select Region</MenuItem>
                               {regions.map((region, index) => (
@@ -323,7 +329,7 @@ function Create() {
                               select
                               label="City"
                               fullWidth
-                              inputProps={register("destination")}
+                              inputProps={register("destinationCity")}
                             >
                               <MenuItem value="">Select City</MenuItem>
                               {selectedDestinationRegion &&
@@ -345,6 +351,7 @@ function Create() {
                               select
                               label="Postal Branch"
                               fullWidth
+                              inputProps={register("destinationPostalBranch")}
                             >
                               <MenuItem value="">Select Postal Branch</MenuItem>
                               {selectedDestinationCity &&

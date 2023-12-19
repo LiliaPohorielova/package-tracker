@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recipient {
+    //TODO: CREATE TABLE & EXTEND FROM USER CLASS
+    //TODO: NOSQL AND MONGO DB
     private String firstname;
     private String lastname;
     private String phoneNumber;

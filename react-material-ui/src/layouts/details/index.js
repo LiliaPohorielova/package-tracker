@@ -11,8 +11,6 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Data
-import MenuItem from "@mui/material/MenuItem";
-import { Stack } from "@mui/material";
 import axios from "axios";
 import MDButton from "../../components/MDButton";
 import MDTypography from "../../components/MDTypography";
@@ -68,61 +66,152 @@ function Details() {
               </MDBox>
               <MDBox pt={3}>
                 <MDBox pt={3} mx={2} py={3}>
-                  <Grid container spacing={2} alignItems={'center'}>
+                  <Grid container spacing={2} alignItems={"center"}>
                     <Grid item xs={3}>
                       <img src={image} />
                     </Grid>
                     <Grid item xs={9}>
-                  <Stack m={2} spacing={3}>
-                    <TextField
-                      id="title"
-                      label="Title"
-                      type="text"
-                      fullWidth
-                      disabled
-                      variant="standard"
-                      value={parcel.title || '_'}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Source"
-                      type="text"
-                      fullWidth
-                      disabled
-                      variant="standard"
-                      value={parcel.source || '_'}
-                    />
-                    <TextField
-                      margin="dense"
-                      id="destination"
-                      label="Destination"
-                      type="text"
-                      fullWidth
-                      disabled
-                      variant="standard"
-                      value={parcel.destination || '_'}
-                    />
-                    <TextField select fullWidth variant="standard" label="Gender">
-                      <MenuItem value="male">Male</MenuItem>
-                      <MenuItem value="female">Female</MenuItem>
-                      <MenuItem value="furry">Furry</MenuItem>
-                    </TextField>
-
-                    {/*<FormControlLabel*/}
-                    {/*  control={<Checkbox />}*/}
-                    {/*  label="Is developer?"*/}
-                    {/*  {...register("isDeveloper")}*/}
-                    {/*/>*/}
-                  </Stack>
-                  <MDButton
-                    component={Link}
-                    to={`/tables`}
-                    variant="outlined"
-                    size="small"
-                    color={"info"}
-                  >
-                    Back
-                  </MDButton>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            autoFocus
+                            id="title"
+                            label="Title"
+                            type="text"
+                            fullWidth
+                            value={parcel.title || "_"}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            size="small"
+                            label="Sender's Surname"
+                            type="text"
+                            fullWidth
+                            required
+                            value={parcel.senderSurname || "_"}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            size="small"
+                            id="destination"
+                            label="Sender's Name"
+                            type="text"
+                            fullWidth
+                            required
+                            value={parcel.senderName || "_"}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            required
+                            size="small"
+                            value={parcel.sourceRegion || "_"}
+                            label="Region"
+                            fullWidth
+                          ></TextField>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            required
+                            size="small"
+                            value={parcel.sourceCity || "_"}
+                            label="City"
+                            fullWidth
+                          ></TextField>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            required
+                            size="small"
+                            value={parcel.sourcePostalBranch || "_"}
+                            label="Postal Branch"
+                            fullWidth
+                          ></TextField>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            size="small"
+                            label="Recipient's Surname"
+                            type="text"
+                            value={parcel.recipientSurname || "_"}
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            size="small"
+                            id="destination"
+                            label="Recipient's Name"
+                            value={parcel.recipientName || "_"}
+                            type="text"
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            required
+                            size="small"
+                            value={parcel.destinationRegion || "_"}
+                            label="Region"
+                            fullWidth
+                          ></TextField>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            required
+                            size="small"
+                            value={parcel.destinationCity || "_"}
+                            label="City"
+                            fullWidth
+                          ></TextField>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            required
+                            size="small"
+                            value={parcel.destinationPostalBranch || "_"}
+                            label="Postal Branch"
+                            fullWidth
+                          ></TextField>
+                        </Grid>
+                        <Grid item xs={12}>
+                        <MDButton
+                          component={Link}
+                          to={`/tables`}
+                          variant="outlined"
+                          size="small"
+                          color={"info"}
+                        >
+                          Back
+                        </MDButton>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </MDBox>

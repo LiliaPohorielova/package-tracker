@@ -8,10 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useForm } from "react-hook-form";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 // @mui material components
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
@@ -19,6 +17,7 @@ import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
+import MDBadge from "../../components/MDBadge";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -31,7 +30,6 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import axios from "axios";
 import { useMaterialUIController } from "../../context";
-import MDBadge from "../../components/MDBadge";
 import Icon from "@mui/material/Icon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -130,12 +128,10 @@ function Tables() {
     async function fetchData() {
       // You can await here
       try {
-        const response = await axios.get(
-            "http://localhost:8080/api/v1/packages");
+        const response = await axios.get("http://localhost:8080/api/v1/packages");
         setUsers(response.data);
         console.log(projectsTableData(response.data));
-        const tableData = projectsTableData(response.data, darkMode, menu,
-            openMenu, closeMenu);
+        const tableData = projectsTableData(response.data, darkMode, menu, openMenu, closeMenu);
         setTableData(tableData);
       } catch (e) {
         console.log(e);
@@ -190,8 +186,8 @@ function Tables() {
       headerName: "Image",
       width: 90,
       renderCell: () => {
-        return <img src={image} />
-      }
+        return <img src={image} />;
+      },
     },
     {
       field: "title",
@@ -199,12 +195,12 @@ function Tables() {
       width: 200,
     },
     {
-      field: "source",
+      field: "sourceCity",
       headerName: "Source",
       width: 200,
     },
     {
-      field: "destination",
+      field: "destinationCity",
       headerName: "Destination",
       width: 200,
     },
@@ -212,11 +208,43 @@ function Tables() {
       field: "status",
       headerName: "Status",
       width: 200,
+      renderCell: (params) => {
+        const currentRow = params.row.status === "IN_TRANSIT" ? "IN TRANSIT" : params.row.status;
+        let color = "light";
+        switch (currentRow) {
+          case "CREATED":
+            color = "light";
+            break;
+          case "IN TRANSIT":
+            color = "info";
+            break;
+          case "DELIVERED":
+            color = "success";
+            break;
+          case "CANCELED":
+            color = "error";
+            break;
+        }
+        return (
+          <MDBox ml={-1}>
+            <MDBadge
+              badgeContent={currentRow}
+              color={color}
+              variant="gradient"
+              size="sm"
+            />
+          </MDBox>
+        );
+      },
     },
     {
       field: "progress",
       headerName: "Progress",
       width: 200,
+      renderCell: (params) => {
+        const currentRow = params.row.progress;
+        return <Progress color={currentRow === 100 ? "success" : "info"} value={currentRow} />;
+      },
     },
     {
       field: "action",
@@ -238,19 +266,19 @@ function Tables() {
             {/*<Link to={`${params.row.id}`}*/}
             {/*      className="btn btn-outline-primary">Read</Link>*/}
             <MDButton
-                component={Link}
-                to={`/package/${params.row.id}/details`}
-                variant="outlined"
-                size="small"
-                color={'info'}
+              component={Link}
+              to={`/package/${params.row.id}/details`}
+              variant="outlined"
+              size="small"
+              color={"info"}
             >
               View
             </MDButton>
             <MDButton
-                onClick={() => handleOpenDeleteDialog(params.row.id)}
-                variant="outlined"
-                size="small"
-                color={'error'}
+              onClick={() => handleOpenDeleteDialog(params.row.id)}
+              variant="outlined"
+              size="small"
+              color={"error"}
             >
               Cancel
             </MDButton>
@@ -283,41 +311,42 @@ function Tables() {
   const openSuccessSB = () => setSuccessSB(true);
   const closeSuccessSB = () => setSuccessSB(false);
   const renderSuccessSB = (
-      <MDSnackbar
-          color="warning"
-          icon="warning"
-          title="Package Tracker"
-          content="Package was canceled successfully!"
-          dateTime="just now"
-          open={successSB}
-          onClose={closeSuccessSB}
-          close={closeSuccessSB}
-          bgWhite
-      />
+    <MDSnackbar
+      color="warning"
+      icon="warning"
+      title="Package Tracker"
+      content="Package was canceled successfully!"
+      dateTime="just now"
+      open={successSB}
+      onClose={closeSuccessSB}
+      close={closeSuccessSB}
+      bgWhite
+    />
   );
   const renderErrorSB = (
-      <MDSnackbar
-          color="error"
-          icon="warning"
-          title="Error"
-          content="Oops... Something went wrong :("
-          dateTime="just now"
-          open={errorSB}
-          onClose={closeErrorSB}
-          close={closeErrorSB}
-          bgWhite
-      />
+    <MDSnackbar
+      color="error"
+      icon="warning"
+      title="Error"
+      content="Oops... Something went wrong :("
+      dateTime="just now"
+      open={errorSB}
+      onClose={closeErrorSB}
+      close={closeErrorSB}
+      bgWhite
+    />
   );
   const onSubmitDeletePackage = (id) => {
-    axios.delete(`http://localhost:8080/api/v1/packages/${id}`)
-    .then((response) => {
-      setOpenDeleteDialog(false); //for closing dialog
-      setUsers(response.data);
-      openSuccessSB();
-    })
-    .catch(() => {
-      openErrorSB();
-    });
+    axios
+      .delete(`http://localhost:8080/api/v1/packages/${id}`)
+      .then((response) => {
+        setOpenDeleteDialog(false); //for closing dialog
+        setUsers(response.data);
+        openSuccessSB();
+      })
+      .catch(() => {
+        openErrorSB();
+      });
   };
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
@@ -326,8 +355,7 @@ function Tables() {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     // alert(JSON.stringify(data, null, 4));
-    axios.post('http://localhost:8080/api/v1/packages', data)
-    .then((response) => {
+    axios.post("http://localhost:8080/api/v1/packages", data).then((response) => {
       setOpen(false); //for closing dialog
     });
   };
@@ -475,38 +503,38 @@ function Tables() {
                       </DialogContentText>
                       <Stack m={2} spacing={3}>
                         <TextField
-                            autoFocus
-                            margin="dense"
-                            id="title"
-                            label="Title"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            inputProps={register("title")}
+                          autoFocus
+                          margin="dense"
+                          id="title"
+                          label="Title"
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                          inputProps={register("title")}
                         />
                         <TextField
-                            margin="dense"
-                            label="Source"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            inputProps={register("source")}
+                          margin="dense"
+                          label="Source"
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                          inputProps={register("source")}
                         />
                         <TextField
-                            margin="dense"
-                            id="destination"
-                            label="Destination"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            inputProps={register("destination")}
+                          margin="dense"
+                          id="destination"
+                          label="Destination"
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                          inputProps={register("destination")}
                         />
                         <TextField
-                            select
-                            fullWidth
-                            variant="standard"
-                            label="Gender"
-                            inputProps={register("gender")}
+                          select
+                          fullWidth
+                          variant="standard"
+                          label="Gender"
+                          inputProps={register("gender")}
                         >
                           <MenuItem value="male">Male</MenuItem>
                           <MenuItem value="female">Female</MenuItem>
@@ -551,34 +579,33 @@ function Tables() {
             </Card>
           </Grid>
           <Dialog
-              open={openDeleteDialog}
-              onClose={handleCloseDeleteDialog}
-              aria-labelledby={`alert-dialog-title`}
-              aria-describedby={`alert-dialog-description`}
+            open={openDeleteDialog}
+            onClose={handleCloseDeleteDialog}
+            aria-labelledby={`alert-dialog-title`}
+            aria-describedby={`alert-dialog-description`}
           >
-            <DialogTitle color={'error'} id={`alert-dialog-title`}>
+            <DialogTitle color={"error"} id={`alert-dialog-title`}>
               {"Cancel Parcel Confirmation"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id={`alert-dialog-description`}>
-                Are you sure you really want to cancel the parcel with
-                id {deleteModalId}?
+                Are you sure you really want to cancel the parcel with id {deleteModalId}?
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <MDButton
-                  onClick={handleCloseDeleteDialog}
-                  variant="outlined"
-                  size="small"
-                  color={'info'}
+                onClick={handleCloseDeleteDialog}
+                variant="outlined"
+                size="small"
+                color={"info"}
               >
                 Close
               </MDButton>
               <MDButton
-                  onClick={() => onSubmitDeletePackage(deleteModalId)}
-                  variant="outlined"
-                  size="small"
-                  color={'error'}
+                onClick={() => onSubmitDeletePackage(deleteModalId)}
+                variant="outlined"
+                size="small"
+                color={"error"}
               >
                 Confirm
               </MDButton>
