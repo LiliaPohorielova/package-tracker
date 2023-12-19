@@ -16,6 +16,9 @@ const inputLabel = {
       "&.Mui-focused": {
         color: info.main,
       },
+      "&.MuiInputLabel-outlined": {
+
+      },
 
       "&.MuiInputLabel-shrink": {
         lineHeight: 1.5,
@@ -28,16 +31,10 @@ const inputLabel = {
     },
 
     sizeSmall: {
-      fontSize: size.xs,
-      lineHeight: 1.625,
+      lineHeight: 1.3,
 
       "&.MuiInputLabel-shrink": {
-        lineHeight: 1.6,
-        fontSize: size.sm,
-
-        "~ .MuiInputBase-root .MuiOutlinedInput-notchedOutline legend": {
-          fontSize: "0.72em",
-        },
+        lineHeight: 1.3,
       },
     },
   },

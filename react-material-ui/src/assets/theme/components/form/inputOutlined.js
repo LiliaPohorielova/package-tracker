@@ -40,8 +40,7 @@ const inputOutlined = {
     },
 
     inputSizeSmall: {
-      fontSize: size.xs,
-      padding: pxToRem(10),
+      padding: `${pxToRem(8)} ${pxToRem(8)} ${pxToRem(8)} ${pxToRem(14)}`,
     },
 
     multiline: {

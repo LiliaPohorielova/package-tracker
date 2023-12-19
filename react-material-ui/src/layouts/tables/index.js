@@ -41,6 +41,7 @@ import { Stack } from "@mui/material";
 // import {MaterialTable} from "material-table";
 import { DataGrid } from "@mui/x-data-grid";
 import image from "../../assets/images/list/package_icon.png";
+import MDSnackbar from "../../components/MDSnackbar";
 
 function Tables() {
   const navigate = useNavigate();
@@ -251,33 +252,11 @@ function Tables() {
                 size="small"
                 color={'error'}
             >
-              Delete
+              Cancel
             </MDButton>
             {/*<Button variant="outlined" color="error" size="small" onClick={onClick}>*/}
             {/*  Delete*/}
             {/*</Button>*/}
-            <Dialog
-                open={openDeleteDialog}
-                onClose={handleCloseDeleteDialog}
-                aria-labelledby={`alert-dialog-title${params.row.id}`}
-                aria-describedby={`alert-dialog-description${params.row.id}`}
-            >
-              <DialogTitle id={`alert-dialog-title${params.row.id}`}>
-                {"Use Google's location service?"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id={`alert-dialog-description${params.row.id}`}>
-                  Let Google help apps determine location. This means sending anonymous
-                  location data to Google, even when no apps are running.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDeleteDialog}>Disagree</Button>
-                <Button onClick={handleCloseDeleteDialog} autoFocus>
-                  Agree
-                </Button>
-              </DialogActions>
-            </Dialog>
           </Stack>
         );
       },
@@ -296,6 +275,49 @@ function Tables() {
   const handleOpenDeleteDialog = (id) => {
     setDeleteModalId(id);
     setOpenDeleteDialog(true);
+  };
+  const [successSB, setSuccessSB] = useState(false);
+  const [errorSB, setErrorSB] = useState(false);
+  const openErrorSB = () => setErrorSB(true);
+  const closeErrorSB = () => setErrorSB(false);
+  const openSuccessSB = () => setSuccessSB(true);
+  const closeSuccessSB = () => setSuccessSB(false);
+  const renderSuccessSB = (
+      <MDSnackbar
+          color="warning"
+          icon="warning"
+          title="Package Tracker"
+          content="Package was canceled successfully!"
+          dateTime="just now"
+          open={successSB}
+          onClose={closeSuccessSB}
+          close={closeSuccessSB}
+          bgWhite
+      />
+  );
+  const renderErrorSB = (
+      <MDSnackbar
+          color="error"
+          icon="warning"
+          title="Error"
+          content="Oops... Something went wrong :("
+          dateTime="just now"
+          open={errorSB}
+          onClose={closeErrorSB}
+          close={closeErrorSB}
+          bgWhite
+      />
+  );
+  const onSubmitDeletePackage = (id) => {
+    axios.delete(`http://localhost:8080/api/v1/packages/${id}`)
+    .then((response) => {
+      setOpenDeleteDialog(false); //for closing dialog
+      setUsers(response.data);
+      openSuccessSB();
+    })
+    .catch(() => {
+      openErrorSB();
+    });
   };
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
@@ -528,6 +550,42 @@ function Tables() {
               </MDBox>
             </Card>
           </Grid>
+          <Dialog
+              open={openDeleteDialog}
+              onClose={handleCloseDeleteDialog}
+              aria-labelledby={`alert-dialog-title`}
+              aria-describedby={`alert-dialog-description`}
+          >
+            <DialogTitle color={'error'} id={`alert-dialog-title`}>
+              {"Cancel Parcel Confirmation"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id={`alert-dialog-description`}>
+                Are you sure you really want to cancel the parcel with
+                id {deleteModalId}?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <MDButton
+                  onClick={handleCloseDeleteDialog}
+                  variant="outlined"
+                  size="small"
+                  color={'info'}
+              >
+                Close
+              </MDButton>
+              <MDButton
+                  onClick={() => onSubmitDeletePackage(deleteModalId)}
+                  variant="outlined"
+                  size="small"
+                  color={'error'}
+              >
+                Confirm
+              </MDButton>
+            </DialogActions>
+          </Dialog>
+          {renderSuccessSB}
+          {renderErrorSB}
           {/*table - 2*/}
           <Grid item xs={12}>
             <Card>

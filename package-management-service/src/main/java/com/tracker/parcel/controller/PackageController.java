@@ -51,9 +51,10 @@ public class PackageController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removePackage(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Package> removePackage(@PathVariable Long id) {
         packageService.deletePackageById(id);
+        return packageService.getAllPackages();
     }
 
     @DeleteMapping("/all")
