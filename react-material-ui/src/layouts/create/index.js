@@ -11,7 +11,6 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Data
 import MenuItem from "@mui/material/MenuItem";
-import { FormControl, InputLabel, Select, Stack } from "@mui/material";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
@@ -21,19 +20,19 @@ import Grid from "@mui/material/Grid";
 import Footer from "../../examples/Footer";
 import image from "../../assets/images/create/package_create.png";
 import MDSnackbar from "../../components/MDSnackbar";
-import MDButton from "../../components/MDButton";
 import Autocomplete from "@mui/material/Autocomplete";
 
 // import {MaterialTable} from "material-table";
 
 function Create() {
   const [parcel, setParcel] = useState([]);
-  const [age, setAge] = React.useState('');
+  const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset,
+    formState, formState: { isSubmitSuccessful } } = useForm();
   const [successSB, setSuccessSB] = useState(false);
   const [errorSB, setErrorSB] = useState(false);
   const openErrorSB = () => setErrorSB(true);
@@ -66,21 +65,14 @@ function Create() {
       bgWhite
     />
   );
-  const onSubmit = (data) => {
-    // alert(JSON.stringify(data, null, 4));
-    axios
-      .post("http://localhost:8080/api/v1/packages", data)
-      .then(() => {
-        openSuccessSB();
-      })
-      .catch(() => {
-        openErrorSB();
-      });
-  };
 
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const [selectedPostalBranches, setSelectedPostalBranches] = useState("");
+  const [selectedSourceRegion, setSelectedSourceRegion] = useState("");
+  const [selectedSourceCity, setSelectedSourceCity] = useState("");
+  const [selectedSourcePostalBranch, setSelectedSourcePostalBranch] = useState("");
+
+  const [selectedDestinationRegion, setSelectedDestinationRegion] = useState("");
+  const [selectedDestinationCity, setSelectedDestinationCity] = useState("");
+  const [selectedDestinationPostalBranch, setSelectedDestinationPostalBranch] = useState("");
 
   const regions = [
     { name: "Kyiv", cities: ["Kyiv City"] },
@@ -98,75 +90,72 @@ function Create() {
     // Add postal branch counts for other cities
   };
 
-  const handleRegionChange = (e) => {
+  const onSubmit = (data, e) => {
+    // alert(JSON.stringify(data, null, 4));
+    axios
+    .post("http://localhost:8080/api/v1/packages", data)
+    .then(() => {
+      //TODO: CHANGE TO NORMAL RESET
+      openSuccessSB();
+      e.preventDefault();
+      e.target.reset();
+      setSelectedSourceRegion("");
+      setSelectedSourceCity("");
+      setSelectedSourcePostalBranch("");
+      setSelectedDestinationRegion("");
+      setSelectedDestinationCity("");
+      setSelectedDestinationPostalBranch("");
+    })
+    .catch(() => {
+      openErrorSB();
+    });
+  };
+
+  const handleSourceRegionChange = (e) => {
     const selectedRegion = e.target.value;
-    setSelectedRegion(selectedRegion);
-    setSelectedCity("");
-    setSelectedPostalBranches("");
+    setSelectedSourceRegion(selectedRegion);
+    setSelectedSourceCity("");
+    setSelectedSourcePostalBranch("");
   };
 
-  const handleCityChange = (e) => {
+  const handleSourceCityChange = (e) => {
     const selectedCity = e.target.value;
-    setSelectedCity(selectedCity);
-    setSelectedPostalBranches("");
+    setSelectedSourceCity(selectedCity);
+    setSelectedSourcePostalBranch("");
   };
 
-  const handlePostalBranchChange = (e) => {
+  const handleSourcePostalBranchChange = (e) => {
     const selectedPostalBranches = e.target.value;
-    setSelectedPostalBranches(selectedPostalBranches);
+    setSelectedSourcePostalBranch(selectedPostalBranches);
+  };
+
+  const handleDestinationRegionChange = (e) => {
+    const selectedRegion = e.target.value;
+    setSelectedDestinationRegion(selectedRegion);
+    setSelectedDestinationCity("");
+    setSelectedDestinationPostalBranch("");
+  };
+
+  const handleDestinationCityChange = (e) => {
+    const selectedCity = e.target.value;
+    setSelectedDestinationCity(selectedCity);
+    setSelectedDestinationPostalBranch("");
+  };
+
+  const handleDestinationPostalBranchChange = (e) => {
+    const selectedPostalBranches = e.target.value;
+    setSelectedDestinationPostalBranch(selectedPostalBranches);
   };
 
   const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
+    { label: "The Shawshank Redemption", year: 1994 },
+    { label: "The Godfather", year: 1972 },
+    { label: "The Godfather: Part II", year: 1974 },
+    { label: "The Dark Knight", year: 2008 },
+    { label: "12 Angry Men", year: 1957 },
     { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 }
-      ]
-
-  // Function to calculate distance between two points using Haversine formula
-  function calculateDistance(lat1, lon1, lat2, lon2) {
-    const earthRadius = 6371; // Earth's radius in kilometers
-
-    // Convert latitude and longitude from degrees to radians
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = earthRadius * c; // Distance in kilometers
-
-    return distance;
-  }
-
-  // Example usage
-  const city1 = {
-    city: "Kyiv",
-    lat: 50.45,
-    lng: 30.5233,
-  };
-
-  const city2 = {
-    city: "Lviv",
-    lat: 49.8397,
-    lng: 24.0297,
-  };
-
-  const distance = calculateDistance(city1.lat, city1.lng, city2.lat, city2.lng);
-
-  console.log(
-    `The distance between ${city1.city} and ${city2.city} is approximately ${distance.toFixed(
-      2
-    )} kilometers.`
-  );
+    { label: "Pulp Fiction", year: 1994 },
+  ];
 
   return (
     <DashboardLayout>
@@ -197,92 +186,192 @@ function Create() {
                     </Grid>
                     <Grid item xs={9}>
                       <form onSubmit={handleSubmit(onSubmit)}>
-                        <Stack m={2} spacing={3}>
-                          <Autocomplete
-                              disablePortal
-                              id="combo-box-demo"
-                              options={top100Films}
-                              renderInput={(params) => <TextField {...params} size="small" label="Movieg" />}
-                          />
-                          <TextField
+                        <Grid container spacing={2}>
+                          <Grid item xs={12}>
+                            <TextField
                               size="small"
-                            autoFocus
-                            margin="dense"
-                            id="title"
-                            label="Title"
-                            type="text"
-                            fullWidth
-                            inputProps={register("title")}
-                          />
-                          <TextField
+                              autoFocus
+                              id="title"
+                              label="Title"
+                              type="text"
+                              fullWidth
+                              inputProps={register("title")}
+                              required
+                            />
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
                               size="small"
-                            margin="dense"
-                            label="Source"
-                            type="text"
-                            fullWidth
-                            inputProps={register("source")}
-                          />
-                          <TextField
+                              label="Sender's Surname"
+                              type="text"
+                              fullWidth
+                              required
+                            />
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
                               size="small"
-                            margin="dense"
-                            id="destination"
-                            label="Destination"
-                            type="text"
-                            fullWidth
-                            inputProps={register("destination")}
-                          />
-                          <TextField
+                              id="destination"
+                              label="Sender's Name"
+                              type="text"
+                              fullWidth
+                              required
+                            />
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              required
                               size="small"
-                              value={selectedRegion}
-                              onChange={handleRegionChange}
+                              value={selectedSourceRegion}
+                              onChange={handleSourceRegionChange}
                               select
                               label="Region"
                               fullWidth
-                          >
-                            <MenuItem value="">Select Region</MenuItem>
-                            {regions.map((region, index) => (
+                            >
+                              <MenuItem value="">Select Region</MenuItem>
+                              {regions.map((region, index) => (
                                 <MenuItem key={index} value={region.name}>
                                   {region.name}
                                 </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
+                              ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              required
                               size="small"
-                              value={selectedCity}
-                              onChange={handleCityChange}
+                              value={selectedSourceCity}
+                              onChange={handleSourceCityChange}
                               select
                               label="City"
                               fullWidth
-                          >
-                            <MenuItem value="">Select City</MenuItem>
-                            {selectedRegion && regions
-                            .find((region) => region.name === selectedRegion)
-                            .cities.map((city, index) => (
-                                <MenuItem key={index} value={city}>
-                                  {city}
-                                </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
+                              inputProps={register("source")}
+                            >
+                              <MenuItem value="">Select City</MenuItem>
+                              {selectedSourceRegion &&
+                                regions
+                                  .find((region) => region.name === selectedSourceRegion)
+                                  .cities.map((city, index) => (
+                                    <MenuItem key={index} value={city}>
+                                      {city}
+                                    </MenuItem>
+                                  ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              required
                               size="small"
-                              value={selectedPostalBranches}
-                              onChange={handlePostalBranchChange}
+                              value={selectedSourcePostalBranch}
+                              onChange={handleSourcePostalBranchChange}
                               select
                               label="Postal Branch"
                               fullWidth
-                          >
-                            <MenuItem value="">Select Postal Branches Count</MenuItem>
-                            {selectedCity && postalBranchesData[selectedCity].map((branches, index) => (
-                                <MenuItem key={index} value={branches}>
-                                  {branches}
+                            >
+                              <MenuItem value="">Select Postal Branch</MenuItem>
+                              {selectedSourceCity &&
+                                postalBranchesData[selectedSourceCity].map((branches, index) => (
+                                  <MenuItem key={index} value={branches}>
+                                    {branches}
+                                  </MenuItem>
+                                ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              size="small"
+                              label="Recipient's Surname"
+                              type="text"
+                              fullWidth
+                              required
+                            />
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              size="small"
+                              id="destination"
+                              label="Recipient's Name"
+                              type="text"
+                              fullWidth
+                              required
+                            />
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              required
+                              size="small"
+                              value={selectedDestinationRegion}
+                              onChange={handleDestinationRegionChange}
+                              select
+                              label="Region"
+                              fullWidth
+                            >
+                              <MenuItem value="">Select Region</MenuItem>
+                              {regions.map((region, index) => (
+                                <MenuItem key={index} value={region.name}>
+                                  {region.name}
                                 </MenuItem>
-                            ))}
-                          </TextField>
-                        </Stack>
-                        <Button type="submit">Submit</Button>
-                        <MDButton type="submit" variant="outlined" size="small" color={"info"}>
-                          Submit
-                        </MDButton>
+                              ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <TextField
+                              required
+                              size="small"
+                              value={selectedDestinationCity}
+                              onChange={handleDestinationCityChange}
+                              select
+                              label="City"
+                              fullWidth
+                              inputProps={register("destination")}
+                            >
+                              <MenuItem value="">Select City</MenuItem>
+                              {selectedDestinationRegion &&
+                                regions
+                                  .find((region) => region.name === selectedDestinationRegion)
+                                  .cities.map((city, index) => (
+                                    <MenuItem key={index} value={city}>
+                                      {city}
+                                    </MenuItem>
+                                  ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              required
+                              size="small"
+                              value={selectedDestinationPostalBranch}
+                              onChange={handleDestinationPostalBranchChange}
+                              select
+                              label="Postal Branch"
+                              fullWidth
+                            >
+                              <MenuItem value="">Select Postal Branch</MenuItem>
+                              {selectedDestinationCity &&
+                                postalBranchesData[selectedDestinationCity].map((branches, index) => (
+                                  <MenuItem key={index} value={branches}>
+                                    {branches}
+                                  </MenuItem>
+                                ))}
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={top100Films}
+                              renderInput={(params) => (
+                                <TextField {...params} size="small" label="Movie" fullWidth />
+                              )}
+                            />
+                          </Grid>
+                          <Button type="submit">Submit</Button>
+                        </Grid>
+                        {/*<FormControlLabel*/}
+                        {/*  control={<Checkbox />}*/}
+                        {/*  label="I want to recieve notifications about this package"*/}
+                        {/*  {...register("isDeveloper")}*/}
+                        {/*/>*/}
                       </form>
                       {renderSuccessSB}
                       {renderErrorSB}
