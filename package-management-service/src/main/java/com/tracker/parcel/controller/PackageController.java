@@ -2,6 +2,7 @@ package com.tracker.parcel.controller;
 
 import com.tracker.parcel.entity.Package;
 import com.tracker.parcel.model.request.PackageRequest;
+import com.tracker.parcel.service.PackageService;
 import com.tracker.parcel.service.impl.PackageServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class PackageController {
 
-    private final PackageServiceImpl packageService;
+    private final PackageService packageService;
     
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)

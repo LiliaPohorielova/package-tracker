@@ -2,6 +2,7 @@ package com.tracker.parcel.service.impl;
 
 import com.tracker.parcel.entity.Package;
 import com.tracker.parcel.exception.ResourceNotFoundException;
+import com.tracker.parcel.kafka.KafkaProducer;
 import com.tracker.parcel.mapper.PackageMapper;
 import com.tracker.parcel.model.request.PackageRequest;
 import com.tracker.parcel.repository.PackageRepository;
@@ -19,14 +20,17 @@ import static com.tracker.parcel.entity.Status.CREATED;
 public class PackageServiceImpl implements PackageService {
 
     private final PackageRepository packageRepository;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     public Package createPackage(PackageRequest request) {
-        Package created = PackageMapper.INSTANCE.toPackage(request);
-        return packageRepository.save(created.toBuilder()
+        Package created = packageRepository.save(
+                PackageMapper.INSTANCE.toPackage(request).toBuilder()
                 .status(CREATED)
                 .progress(0)
                 .build());
+        kafkaProducer.sendPackageEvent(created);
+        return created;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public List<Package> getAllPackages() {
-        return packageRepository.findAll();
+        return packageRepository.findAllByOrderByIdDesc();
     }
 
     @Override
@@ -66,6 +70,7 @@ public class PackageServiceImpl implements PackageService {
         return null;
     }
 
+    @Override
     public void deleteAllPackages() {
         packageRepository.deleteAll();
     }

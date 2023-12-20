@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -31,6 +29,7 @@ import projectsTableData from "layouts/tables/data/projectsTableData";
 import axios from "axios";
 import { useMaterialUIController } from "../../context";
 import Icon from "@mui/material/Icon";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MDAvatar from "../../components/MDAvatar";
@@ -93,8 +92,8 @@ function Tables() {
   const [open, setOpen] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [deleteModalId, setDeleteModalId] = useState(0);
-  const [users, setUsers] = useState([]);
-  // const { columns: pColumns, rows: pRows } = projectsTableData(users);
+  const [parcels, setParcels] = useState([]);
+  // const { columns: pColumns, rows: pRows } = projectsTableData(parcels);
   const [pColumns, setPColumns] = useState([]);
   const [pRows, setPRows] = useState([]);
 
@@ -126,29 +125,30 @@ function Tables() {
 
   useEffect(() => {
     async function fetchData() {
-      // You can await here
       try {
         const response = await axios.get("http://localhost:8080/api/v1/packages");
-        setUsers(response.data);
-        console.log(projectsTableData(response.data));
+        setParcels(response.data);
         const tableData = projectsTableData(response.data, darkMode, menu, openMenu, closeMenu);
         setTableData(tableData);
       } catch (e) {
-        console.log(e);
+        openErrorSB();
       }
     }
-
-    // fetchData().then(()=>{
-    //   setTableData(tableData);
-    // });
     fetchData();
+  }, []);
 
-    // fetch()
-  }, []); // Or [] if effect doesn't need props or state
-
-  const handleClickOpen = () => {
-    setOpen(true);
-    console.log(users);
+  const handleRefreshButton = () => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/packages");
+        setParcels(response.data);
+        const tableData = projectsTableData(response.data, darkMode, menu, openMenu, closeMenu);
+        setTableData(tableData);
+      } catch (e) {
+        openErrorSB();
+      }
+    }
+    fetchData();
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -227,12 +227,7 @@ function Tables() {
         }
         return (
           <MDBox ml={-1}>
-            <MDBadge
-              badgeContent={currentRow}
-              color={color}
-              variant="gradient"
-              size="sm"
-            />
+            <MDBadge badgeContent={currentRow} color={color} variant="gradient" size="sm" />
           </MDBox>
         );
       },
@@ -341,7 +336,7 @@ function Tables() {
       .delete(`http://localhost:8080/api/v1/packages/${id}`)
       .then((response) => {
         setOpenDeleteDialog(false); //for closing dialog
-        setUsers(response.data);
+        setParcels(response.data);
         openSuccessSB();
       })
       .catch(() => {
@@ -360,7 +355,7 @@ function Tables() {
     });
   };
 
-  const rowsTest = users.map((project, index) => ({
+  const rowsTest = parcels.map((project, index) => ({
     project: (
       <Project
         key={index}
@@ -385,7 +380,6 @@ function Tables() {
           sx={{ cursor: "pointer", fontWeight: "bold" }}
           fontSize="small"
           onClick={() => {
-            console.log(project.id);
             openMenu(project.id);
           }}
         >
@@ -421,7 +415,7 @@ function Tables() {
   //       setUsers(response.data);
   //     })
   //     .then(() => {
-  //       // After updating users, send it to projectsTableData
+  //       // After updating parcels, send it to projectsTableData
   //       const { columns, rows } = projectsTableData(user);
   //       setPColumns(columns);
   //       setPRows(rows);
@@ -449,14 +443,14 @@ function Tables() {
   //
   // useEffect(() => {
   //   // GET request using axios inside useEffect React hook
-  //   // fetchData().then(() => console.log(users));
-  //   console.log(users);
+  //   // fetchData().then(() => console.log(parcels));
+  //   console.log(parcels);
   //   // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  // }, [users]);
+  // }, [parcels]);
 
   //TODO: СДЕЛАТЬ ТАК ЧТОБЫ ДАННЫЕ ОТОБРАЗИЛИСЬ В ТАБЛИЧКЕ
   // useEffect(() => {
-  //   const { columns, rows } = projectsTableData(users);
+  //   const { columns, rows } = projectsTableData(parcels);
   //   setPColumns(columns);
   //   setPRows(rows);
   //   // empty dependency array means this effect will only run once (like componentDidMount in classes)
@@ -486,78 +480,19 @@ function Tables() {
                       Parcels Table
                     </MDTypography>
                   </Grid>
-                  <Grid item xs={2}>
-                    <MDButton variant="outlined" color="white" onClick={handleClickOpen}>
-                      Create new package
-                    </MDButton>
+                  <Grid item xs={2} alignContent="left">
+                    <MDBox mx={5}>
+                      <MDButton variant="outlined" color="white" onClick={handleRefreshButton}>
+                        <RefreshIcon />
+                        &nbsp;&nbsp;&nbsp;Refresh
+                      </MDButton>
+                    </MDBox>
                   </Grid>
                 </Grid>
-                <Dialog open={open} onClose={handleClose}>
-                  {/*//TODO:DELETE CONFIRMATION BUTTON + SEND REQUEST*/}
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <DialogTitle>Add Package</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        Please complete all required fields including the title, source,
-                        destination, and any other relevant information about your parcel.
-                      </DialogContentText>
-                      <Stack m={2} spacing={3}>
-                        <TextField
-                          autoFocus
-                          margin="dense"
-                          id="title"
-                          label="Title"
-                          type="text"
-                          fullWidth
-                          variant="standard"
-                          inputProps={register("title")}
-                        />
-                        <TextField
-                          margin="dense"
-                          label="Source"
-                          type="text"
-                          fullWidth
-                          variant="standard"
-                          inputProps={register("source")}
-                        />
-                        <TextField
-                          margin="dense"
-                          id="destination"
-                          label="Destination"
-                          type="text"
-                          fullWidth
-                          variant="standard"
-                          inputProps={register("destination")}
-                        />
-                        <TextField
-                          select
-                          fullWidth
-                          variant="standard"
-                          label="Gender"
-                          inputProps={register("gender")}
-                        >
-                          <MenuItem value="male">Male</MenuItem>
-                          <MenuItem value="female">Female</MenuItem>
-                          <MenuItem value="furry">Furry</MenuItem>
-                        </TextField>
-
-                        {/*<FormControlLabel*/}
-                        {/*  control={<Checkbox />}*/}
-                        {/*  label="Is developer?"*/}
-                        {/*  {...register("isDeveloper")}*/}
-                        {/*/>*/}
-                      </Stack>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit">Submit</Button>
-                    </DialogActions>
-                  </form>
-                </Dialog>
               </MDBox>
               <MDBox pt={3} mx={2} py={3}>
                 <DataGrid
-                  rows={users}
+                  rows={parcels}
                   columns={columnsTest}
                   initialState={{
                     pagination: {

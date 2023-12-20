@@ -10,6 +10,7 @@ public interface PackageService {
     Package updatePackage(Long id, Package request);
     Package getPackageById(Long id);
     void deletePackageById(Long id);
+    void deleteAllPackages();
     List<Package> getAllPackages();
     Package sendPackage(Package request);
 }
