@@ -65,12 +65,6 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public Package sendPackage(Package request) {
-        // TODO: Send kafka event to notify delivery service
-        return null;
-    }
-
-    @Override
     public void deleteAllPackages() {
         packageRepository.deleteAll();
     }

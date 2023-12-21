@@ -12,5 +12,4 @@ public interface PackageService {
     void deletePackageById(Long id);
     void deleteAllPackages();
     List<Package> getAllPackages();
-    Package sendPackage(Package request);
 }

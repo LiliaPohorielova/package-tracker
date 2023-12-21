@@ -64,11 +64,13 @@ function Details() {
                   Information
                 </MDTypography>
               </MDBox>
-              <MDBox pt={3}>
+              <MDBox pt={2}>
                 <MDBox pt={3} mx={2} py={3}>
                   <Grid container spacing={2} alignItems={"center"}>
                     <Grid item xs={3}>
-                      <img src={image} />
+                      <MDBox px={5}>
+                        <img src={image} />
+                      </MDBox>
                     </Grid>
                     <Grid item xs={9}>
                       <Grid container spacing={2}>
@@ -85,29 +87,33 @@ function Details() {
                           />
                         </Grid>
                         <Grid item xs={6}>
-                          <TextField
-                            variant="standard"
-                            disabled
-                            size="small"
-                            label="Sender's Surname"
-                            type="text"
-                            fullWidth
-                            required
-                            value={parcel.senderSurname || "_"}
-                          />
+                          <MDBox pt={2}>
+                            <TextField
+                              variant="standard"
+                              disabled
+                              size="small"
+                              label="Sender's Surname"
+                              type="text"
+                              fullWidth
+                              required
+                              value={parcel.senderSurname || "_"}
+                            />
+                          </MDBox>
                         </Grid>
                         <Grid item xs={6}>
-                          <TextField
-                            variant="standard"
-                            disabled
-                            size="small"
-                            id="destination"
-                            label="Sender's Name"
-                            type="text"
-                            fullWidth
-                            required
-                            value={parcel.senderName || "_"}
-                          />
+                          <MDBox pt={2}>
+                            <TextField
+                              variant="standard"
+                              disabled
+                              size="small"
+                              id="destination"
+                              label="Sender's Name"
+                              type="text"
+                              fullWidth
+                              required
+                              value={parcel.senderName || "_"}
+                            />
+                          </MDBox>
                         </Grid>
                         <Grid item xs={6}>
                           <TextField
@@ -143,29 +149,33 @@ function Details() {
                           ></TextField>
                         </Grid>
                         <Grid item xs={6}>
-                          <TextField
-                            variant="standard"
-                            disabled
-                            size="small"
-                            label="Recipient's Surname"
-                            type="text"
-                            value={parcel.recipientSurname || "_"}
-                            fullWidth
-                            required
-                          />
+                          <MDBox pt={2}>
+                            <TextField
+                              variant="standard"
+                              disabled
+                              size="small"
+                              label="Recipient's Surname"
+                              type="text"
+                              value={parcel.recipientSurname || "_"}
+                              fullWidth
+                              required
+                            />
+                          </MDBox>
                         </Grid>
                         <Grid item xs={6}>
-                          <TextField
-                            variant="standard"
-                            disabled
-                            size="small"
-                            id="destination"
-                            label="Recipient's Name"
-                            value={parcel.recipientName || "_"}
-                            type="text"
-                            fullWidth
-                            required
-                          />
+                          <MDBox pt={2}>
+                            <TextField
+                              variant="standard"
+                              disabled
+                              size="small"
+                              id="destination"
+                              label="Recipient's Name"
+                              value={parcel.recipientName || "_"}
+                              type="text"
+                              fullWidth
+                              required
+                            />
+                          </MDBox>
                         </Grid>
                         <Grid item xs={6}>
                           <TextField
@@ -201,15 +211,15 @@ function Details() {
                           ></TextField>
                         </Grid>
                         <Grid item xs={12}>
-                        <MDButton
-                          component={Link}
-                          to={`/tables`}
-                          variant="outlined"
-                          size="small"
-                          color={"info"}
-                        >
-                          Back
-                        </MDButton>
+                          <MDButton
+                            component={Link}
+                            to={`/tables`}
+                            variant="outlined"
+                            size="small"
+                            color={"info"}
+                          >
+                            Back
+                          </MDButton>
                         </Grid>
                       </Grid>
                     </Grid>

@@ -1,11 +1,36 @@
-# mail
+server:
+  port: 8082
+
 spring:
   mail:
     host: smtp.gmail.com
     port: 587
     username: package.tracker.project@gmail.com
-    password: rootroot
-    smtp:
-      auth: true
-      starttls:
-        enable: true
+    password: edmx eniv jyyq mzep
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+## mail
+#  spring.mail.host=smtp.gmail.com
+#  spring.mail.port=587
+#  spring.mail.username=doctor.all.project@gmail.com
+#  spring.mail.password=rootroot
+#  spring.mail.properties.mail.smtp.auth=true
+#  spring.mail.properties.mail.smtp.starttls.enable=true
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:29092
+      group-id: notification_service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.tracker.parcel.entity
+    producer:
+      acks: -1
+      bootstrap-servers: localhost:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

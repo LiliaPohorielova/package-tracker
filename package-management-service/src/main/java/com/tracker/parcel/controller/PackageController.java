@@ -63,10 +63,4 @@ public class PackageController {
     public void removeAllPackages() {
         packageService.deleteAllPackages();
     }
-
-    @PostMapping("/send")
-    @ResponseStatus(HttpStatus.OK)
-    public Package sendPackage(@RequestBody Package request) {
-        return packageService.sendPackage(request);
-    }
 }

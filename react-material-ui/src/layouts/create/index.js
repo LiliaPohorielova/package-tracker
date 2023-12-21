@@ -20,7 +20,6 @@ import Grid from "@mui/material/Grid";
 import Footer from "../../examples/Footer";
 import image from "../../assets/images/create/package_create.png";
 import MDSnackbar from "../../components/MDSnackbar";
-import Autocomplete from "@mui/material/Autocomplete";
 
 // import {MaterialTable} from "material-table";
 
@@ -31,8 +30,13 @@ function Create() {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  const { register, handleSubmit, reset,
-    formState, formState: { isSubmitSuccessful } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState,
+    formState: { isSubmitSuccessful },
+  } = useForm();
   const [successSB, setSuccessSB] = useState(false);
   const [errorSB, setErrorSB] = useState(false);
   const openErrorSB = () => setErrorSB(true);
@@ -93,22 +97,22 @@ function Create() {
   const onSubmit = (data, e) => {
     // alert(JSON.stringify(data, null, 4));
     axios
-    .post("http://localhost:8080/api/v1/packages", data)
-    .then(() => {
-      //TODO: CHANGE TO NORMAL RESET
-      openSuccessSB();
-      e.preventDefault();
-      e.target.reset();
-      setSelectedSourceRegion("");
-      setSelectedSourceCity("");
-      setSelectedSourcePostalBranch("");
-      setSelectedDestinationRegion("");
-      setSelectedDestinationCity("");
-      setSelectedDestinationPostalBranch("");
-    })
-    .catch(() => {
-      openErrorSB();
-    });
+      .post("http://localhost:8080/api/v1/packages", data)
+      .then(() => {
+        //TODO: CHANGE TO NORMAL RESET
+        openSuccessSB();
+        e.preventDefault();
+        e.target.reset();
+        setSelectedSourceRegion("");
+        setSelectedSourceCity("");
+        setSelectedSourcePostalBranch("");
+        setSelectedDestinationRegion("");
+        setSelectedDestinationCity("");
+        setSelectedDestinationPostalBranch("");
+      })
+      .catch(() => {
+        openErrorSB();
+      });
   };
 
   const handleSourceRegionChange = (e) => {
@@ -182,7 +186,9 @@ function Create() {
                 <MDBox pt={3} mx={2} py={3}>
                   <Grid container spacing={2} alignItems={"center"}>
                     <Grid item xs={3}>
-                      <img src={image} />
+                      <MDBox px={5}>
+                        <img src={image} />
+                      </MDBox>
                     </Grid>
                     <Grid item xs={9}>
                       <form onSubmit={handleSubmit(onSubmit)}>
@@ -200,25 +206,49 @@ function Create() {
                             />
                           </Grid>
                           <Grid item xs={6}>
-                            <TextField
-                              size="small"
-                              label="Sender's Surname"
-                              type="text"
-                              fullWidth
-                              required
-                              inputProps={register("senderSurname")}
-                            />
+                            <MDBox pt={3}>
+                              <TextField
+                                size="small"
+                                label="Sender's Surname"
+                                type="text"
+                                fullWidth
+                                required
+                                inputProps={register("senderSurname")}
+                              />
+                            </MDBox>
                           </Grid>
                           <Grid item xs={6}>
-                            <TextField
-                              size="small"
-                              label="Sender's Name"
-                              type="text"
-                              fullWidth
-                              required
-                              inputProps={register("senderName")}
-                            />
+                            <MDBox pt={3}>
+                              <TextField
+                                size="small"
+                                label="Sender's Name"
+                                type="text"
+                                fullWidth
+                                required
+                                inputProps={register("senderName")}
+                              />
+                            </MDBox>
                           </Grid>
+                          {/*<Grid item xs={6}>*/}
+                          {/*  <TextField*/}
+                          {/*    size="small"*/}
+                          {/*    label="Sender's Phone number"*/}
+                          {/*    type="text"*/}
+                          {/*    fullWidth*/}
+                          {/*    required*/}
+                          {/*    inputProps={register("senderPhoneNumber")}*/}
+                          {/*  />*/}
+                          {/*</Grid>*/}
+                          {/*<Grid item xs={6}>*/}
+                          {/*  <TextField*/}
+                          {/*    size="small"*/}
+                          {/*    label="Sender's Email"*/}
+                          {/*    type="text"*/}
+                          {/*    fullWidth*/}
+                          {/*    required*/}
+                          {/*    inputProps={register("senderEmail")}*/}
+                          {/*  />*/}
+                          {/*</Grid>*/}
                           <Grid item xs={6}>
                             <TextField
                               required
@@ -281,26 +311,50 @@ function Create() {
                             </TextField>
                           </Grid>
                           <Grid item xs={6}>
-                            <TextField
-                              size="small"
-                              label="Recipient's Surname"
-                              type="text"
-                              fullWidth
-                              required
-                              inputProps={register("recipientSurname")}
-                            />
+                            <MDBox pt={3}>
+                              <TextField
+                                size="small"
+                                label="Recipient's Surname"
+                                type="text"
+                                fullWidth
+                                required
+                                inputProps={register("recipientSurname")}
+                              />
+                            </MDBox>
                           </Grid>
                           <Grid item xs={6}>
-                            <TextField
-                              size="small"
-                              id="destination"
-                              label="Recipient's Name"
-                              type="text"
-                              fullWidth
-                              required
-                              inputProps={register("recipientName")}
-                            />
+                            <MDBox pt={3}>
+                              <TextField
+                                size="small"
+                                id="destination"
+                                label="Recipient's Name"
+                                type="text"
+                                fullWidth
+                                required
+                                inputProps={register("recipientName")}
+                              />
+                            </MDBox>
                           </Grid>
+                          {/*<Grid item xs={6}>*/}
+                          {/*  <TextField*/}
+                          {/*    size="small"*/}
+                          {/*    label="Recipient's Phone number"*/}
+                          {/*    type="text"*/}
+                          {/*    fullWidth*/}
+                          {/*    required*/}
+                          {/*    inputProps={register("recipientPhoneNumber")}*/}
+                          {/*  />*/}
+                          {/*</Grid>*/}
+                          {/*<Grid item xs={6}>*/}
+                          {/*  <TextField*/}
+                          {/*    size="small"*/}
+                          {/*    label="Recipient's Email"*/}
+                          {/*    type="text"*/}
+                          {/*    fullWidth*/}
+                          {/*    required*/}
+                          {/*    inputProps={register("recipientEmail")}*/}
+                          {/*  />*/}
+                          {/*</Grid>*/}
                           <Grid item xs={6}>
                             <TextField
                               required
@@ -355,24 +409,28 @@ function Create() {
                             >
                               <MenuItem value="">Select Postal Branch</MenuItem>
                               {selectedDestinationCity &&
-                                postalBranchesData[selectedDestinationCity].map((branches, index) => (
-                                  <MenuItem key={index} value={branches}>
-                                    {branches}
-                                  </MenuItem>
-                                ))}
+                                postalBranchesData[selectedDestinationCity].map(
+                                  (branches, index) => (
+                                    <MenuItem key={index} value={branches}>
+                                      {branches}
+                                    </MenuItem>
+                                  )
+                                )}
                             </TextField>
                           </Grid>
-                          <Grid item xs={12}>
-                            <Autocomplete
-                              disablePortal
-                              id="combo-box-demo"
-                              options={top100Films}
-                              renderInput={(params) => (
-                                <TextField {...params} size="small" label="Movie" fullWidth />
-                              )}
-                            />
-                          </Grid>
-                          <Button type="submit">Submit</Button>
+                          {/*<Grid item xs={12}>*/}
+                          {/*  <Autocomplete*/}
+                          {/*    disablePortal*/}
+                          {/*    id="combo-box-demo"*/}
+                          {/*    options={top100Films}*/}
+                          {/*    renderInput={(params) => (*/}
+                          {/*      <TextField {...params} size="small" label="Movie" fullWidth />*/}
+                          {/*    )}*/}
+                          {/*  />*/}
+                          {/*</Grid>*/}
+                          <MDBox pt={3}>
+                            <Button type="submit">Submit</Button>
+                          </MDBox>
                         </Grid>
                         {/*<FormControlLabel*/}
                         {/*  control={<Checkbox />}*/}

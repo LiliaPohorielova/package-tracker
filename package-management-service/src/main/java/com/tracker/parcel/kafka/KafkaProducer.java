@@ -1,5 +1,6 @@
 package com.tracker.parcel.kafka;
 
+import com.tracker.parcel.entity.Notification;
 import com.tracker.parcel.entity.Package;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +12,21 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaProducer {
 
-    public static final String TOPIC = "send_package_event";
+    public static final String SEND_PACKAGE_EVENT_TOPIC = "send_package_event";
+    public static final String SEND_NOTIFICATION_TOPIC = "send_notification";
 
-    private final KafkaTemplate<String, Package> kafkaTemplate;
+    private final KafkaTemplate<String, Package> kafkaPackageTemplate;
+    private final KafkaTemplate<String, Notification> kafkaNotificationTemplate;
 
     public void sendPackageEvent(Package packageEvent) {
         String key = packageEvent.getId().toString();
-        kafkaTemplate.send(TOPIC, key, packageEvent);
+        kafkaPackageTemplate.send(SEND_PACKAGE_EVENT_TOPIC, key, packageEvent);
         log.info("Producer produced the message {}", packageEvent);
-        // write your handlers and post-processing logic, based on your use case
+    }
+
+    public void sendNotification(Notification notification) {
+        String key = notification.getId().toString();
+        kafkaNotificationTemplate.send(SEND_NOTIFICATION_TOPIC, key, notification);
+        log.info("Producer produced the message {}", notification);
     }
 }
