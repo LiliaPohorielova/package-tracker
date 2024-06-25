@@ -39,7 +39,7 @@ public class NotificationServiceImpl implements NotificationService {
             helper.setText("<b>Recipient: </b>" + notification.getRecipient( )+ "<br>" +
                 "<b>E-mail: </b>" + to + "<br>" +
                 "<b>Package: </b>" + notification.getPackageTitle() + "<br>" +
-                "<b>Message: </b> You can pick up the parcel at branch" + notification.getMessage() + "<br>" +
+                "<b>Message: </b> You can pick up the parcel at branch " + notification.getMessage() + "<br>" +
                 "<br><b>© Package Tracker </b>", true);
             mailSender.send(message);
         } catch (MessagingException e) {

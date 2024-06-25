@@ -76,28 +76,28 @@ function Transactions() {
             color="success"
             icon="expand_less"
             name="Stripe"
-            description="26 March 2020, at 13:45 PM"
+            description="26 March 2024, at 13:45 PM"
             value="+ $ 750"
           />
           <Transaction
             color="success"
             icon="expand_less"
             name="HubSpot"
-            description="26 March 2020, at 12:30 PM"
+            description="26 March 2024, at 12:30 PM"
             value="+ $ 1,000"
           />
           <Transaction
             color="success"
             icon="expand_less"
-            name="Creative Tim"
-            description="26 March 2020, at 08:30 AM"
+            name="Liliia Pohorielova"
+            description="26 March 2024, at 08:30 AM"
             value="+ $ 2,500"
           />
           <Transaction
             color="dark"
             icon="priority_high"
             name="Webflow"
-            description="26 March 2020, at 05:00 AM"
+            description="26 March 2024, at 05:00 AM"
             value="Pending"
           />
         </MDBox>

@@ -3,20 +3,17 @@
   "version": "2.2.0",
   "proxy": "http://localhost:8080",
   "private": true,
-  "author": "Creative Tim",
-  "license": "See license in https://www.creative-tim.com/license",
-  "description": "React version of Material Dashboard 2 by Creative Tim",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
+  "author": "Liliia Pohorielova",
+  "description": "Package Tracker Material Dashboard",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
+    "url": "git+https://github.com/LiliaPohorielova/package-tracker"
   },
   "dependencies": {
     "@emotion/cache": "11.10.8",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.6.0",
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.15.0",
     "@mui/lab": "^5.0.0-alpha.156",
@@ -31,6 +28,7 @@
     "material-table": "^2.0.5",
     "prop-types": "15.8.1",
     "react": "18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-chartjs-2": "5.2.0",
     "react-dom": "18.2.0",
     "react-github-btn": "1.4.0",
@@ -38,8 +36,10 @@
     "react-router-dom": "6.11.0",
     "react-scripts": "5.0.1",
     "react-table": "7.8.0",
+    "react-validation": "^3.0.7",
     "stylis": "4.1.4",
     "stylis-plugin-rtl": "2.1.1",
+    "validator": "^13.12.0",
     "yup": "1.1.1"
   },
   "scripts": {

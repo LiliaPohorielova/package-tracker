@@ -23,10 +23,10 @@ This is a project for tracking packages.
 ```bash
 psql -U postgres  # connect to postgres
 \l  # show all databases
-use db_name  # use database
+use packages  # use database name
 \dt  # show all tables
 use tables_name  # use table
 select * from table_name;  # show all data from table
 ```
 ---
-Made with ❤ by [Liliia Pohorielova](https://github.com/LiliaPohorielova) in 2023
+Made with ❤ by [Liliia Pohorielova](https://github.com/LiliaPohorielova) in 2024

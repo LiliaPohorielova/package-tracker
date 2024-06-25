@@ -87,10 +87,10 @@ function Footer({ company, links }) {
 Footer.defaultProps = {
   company: { href: "https://github.com/LiliaPohorielova", name: "Liliia Pohorielova" },
   links: [
-    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
-    { href: "https://www.creative-tim.com/blog", name: "Blog" },
-    { href: "https://www.creative-tim.com/license", name: "License" },
+    { href: "", name: "Services" },
+    { href: "", name: "About Us" },
+    { href: "", name: "Blog" },
+    { href: "", name: "Contacts" },
   ],
 };
 
